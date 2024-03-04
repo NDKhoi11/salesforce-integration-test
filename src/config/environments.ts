@@ -11,3 +11,4 @@ export const SALESFORCE_AUTH_API_URL = process.env
   .NEXT_PUBLIC_SALESFORCE_AUTH_API_URL as string;
 export const SALESFORCE_RESOURCE_API_URL = process.env
   .NEXT_PUBLIC_SALESFORCE_RESOURCE_API_URL as string;
+export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET as string;

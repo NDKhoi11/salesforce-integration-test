@@ -1,12 +1,21 @@
-import ContactTable from "@/components/ContactTable";
-import { querySObjectRecords } from "@/services/salesforce.service";
+import ContactTable from "@/client/components/ContactTable";
+import { querySObjectRecords } from "@/server/apis/salesforce";
+import { getQuerySObjectsQueryKey } from "@/shared/queryKey";
+import { RQHydrate, queryClient } from "@/utils/react-query";
 
 const Page: React.FC = async () => {
-  const contactData = await querySObjectRecords(
-    "SELECT+Id,FirstName,LastName,Email,Phone+FROM+Contact+LIMIT+10"
-  );
+  const query =
+    "SELECT+Id,FirstName,LastName,Email,Phone+FROM+Contact+LIMIT+10";
+  await queryClient.prefetchQuery({
+    queryKey: getQuerySObjectsQueryKey(query),
+    queryFn: () => querySObjectRecords(query),
+  });
 
-  return <ContactTable items={contactData?.records || []} />;
+  return (
+    <RQHydrate>
+      <ContactTable />
+    </RQHydrate>
+  );
 };
 
 export default Page;
